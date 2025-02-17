@@ -1,0 +1,24 @@
+services:
+  app:
+    container_name: skillsrock-test
+    image: skillsrock-test
+    build:
+      context: .
+    environment:
+      - ADDR=:8080
+      - DB_USER=skillsrock
+      - DB_PASSWORD=skillsrock
+      - DB_NAME=skillsrock
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5432
+    #stdin_open: true
+    tty: true
+#    networks:
+#      - db-proxy-net
+    ports:
+      - "8080:8080"
+      - "5432:5432"
+
+#networks:
+#  db-proxy-net:
+#    driver: bridge
