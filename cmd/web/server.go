@@ -9,7 +9,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"log/slog"
 	"os"
 )
@@ -32,12 +32,12 @@ func main() {
 		getEnv("DB_PORT", "5432"),
 		getEnv("DB_NAME", "postgres"))
 
-	db, err := pgx.Connect(context.Background(), connString)
+	db, err := pgxpool.New(context.Background(), connString)
 	if err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
-	defer db.Close(context.Background())
+	defer db.Close()
 
 	err = Migrate(connString)
 	if err != nil {

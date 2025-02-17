@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"time"
 )
 
@@ -15,7 +16,7 @@ type Task struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 type TaskModel struct {
-	DB *pgx.Conn
+	DB *pgxpool.Pool
 }
 
 func (m *TaskModel) Insert(title, description string) error {
